@@ -19,9 +19,12 @@ Tools & Framework used:
 `JDK 1.8`
 
 Dependencies:
-`Spring web`
-`H2 database`
-`Spring data JPA`
+
+`1.Spring web`
+
+`2.H2 database`
+
+`3.Spring data JPA`
 
 Database used: 
 `h2 in memory database`
