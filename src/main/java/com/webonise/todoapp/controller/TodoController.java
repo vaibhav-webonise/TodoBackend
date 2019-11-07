@@ -16,10 +16,9 @@ import com.webonise.todoapp.service.TodoService;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TodoController {
-
 	@Autowired
-	TodoService todoService;
-	
+	private TodoService todoService;
+
 	@RequestMapping("/todos")
 	public List<Todo> getTodos() {
 		return todoService.getTodos();
@@ -27,7 +26,7 @@ public class TodoController {
 
 	@PostMapping("/todos")
 	public Todo addTodo(@RequestBody Todo todo) {
-		return todoService.saveTodo(todo); 
+		return todoService.saveTodo(todo);
 	}
 
 	@DeleteMapping("/todos/{id}")
