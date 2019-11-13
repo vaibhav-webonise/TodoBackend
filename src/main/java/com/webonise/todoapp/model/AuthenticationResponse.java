@@ -7,7 +7,7 @@ public class AuthenticationResponse {
 		super();
 		this.jwt = jwt;
 	}
-	
+
 	public String getJwt() {
 		return jwt;
 	}
