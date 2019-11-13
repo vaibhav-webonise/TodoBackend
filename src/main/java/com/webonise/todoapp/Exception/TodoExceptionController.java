@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class TodoExceptionController {
 	@ExceptionHandler(value = TodosNotExistException.class)
 	public ResponseEntity<Object> exception(TodosNotExistException exception) {
-		return new ResponseEntity<>("Server response : No todo exists", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("Server response : No todos exist", HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(value = TodoNotExistByGivenIdException.class)
