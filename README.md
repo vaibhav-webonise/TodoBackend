@@ -34,10 +34,13 @@ Database used:
 Installation: 
 `To run this app follow given steps,`
 
-1.Clone or download project directory
-2.Go to the directory and type
-3.mvn clean install 
-4.mvn spring-boot:run
+`1.Clone or download project directory`
+
+`2.Go to the directory and type`
+
+`3.mvn clean install `
+
+`4.mvn spring-boot:run`
 
 After follwing these all steps your application will be running on 
         `http://localhost:8080/`
