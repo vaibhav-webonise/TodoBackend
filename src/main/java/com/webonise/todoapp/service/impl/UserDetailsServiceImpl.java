@@ -13,15 +13,14 @@ import com.webonise.todoapp.model.UserData;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	@Autowired
-	private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<UserData> userData = userRepository.findById(username);
-		String usern=userData.get().getUsername();
-		String pass=userData.get().getPassword();
-		return new User(usern, pass,
-				new ArrayList<>());
-	}
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Optional<UserData> userData = userRepository.findById(username);
+    String usern = userData.get().getUsername();
+    String pass = userData.get().getPassword();
+    return new User(usern, pass, new ArrayList<>());
+  }
 }

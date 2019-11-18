@@ -35,6 +35,7 @@ public class UserController {
 
 	@Autowired
 	private UserServiceImpl userServiceImpl;
+	
 	@Autowired
 	private UserRepository userRepository;
 

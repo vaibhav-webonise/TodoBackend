@@ -5,8 +5,9 @@ import org.springframework.http.ResponseEntity;
 import com.webonise.todoapp.model.Todo;
 
 public interface TodoService {
-	public List<Todo> getTodos();
-	public Todo saveTodo(Todo todo);
-	public ResponseEntity<?> deleteTodo(int id);
-	public Todo updateTodo(Todo todo);
+  
+  public List<Todo> getTodos();
+  public Todo saveTodo(Todo todo);
+  public ResponseEntity<?> deleteTodo(int id);
+  public Todo updateTodo(Todo todo);
 }
