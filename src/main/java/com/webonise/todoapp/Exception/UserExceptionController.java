@@ -17,4 +17,9 @@ public class UserExceptionController {
 	public ResponseEntity<Object> exception(UserNotExistsException exception) {
 		return new ResponseEntity<>("User not exists, You need to sign up", HttpStatus.NOT_FOUND);
 	}
+
+	@ExceptionHandler(value = InvalidCredentialsByUser.class)
+	public ResponseEntity<Object> exception(InvalidCredentialsByUser exception) {
+		return new ResponseEntity<>("Incorrect username or password", HttpStatus.PRECONDITION_FAILED);
+	}
 }

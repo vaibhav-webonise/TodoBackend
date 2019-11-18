@@ -1,3 +1,3 @@
-insert into todo(id,desc) values(1,'learn java');
-insert into todo(id,desc) values(2,'learn javaScript');
-insert into todo(id,desc) values(3,'learn Spring framework');
+insert into todo(desc) values('learn java');
+insert into todo(desc) values('learn javaScript');
+insert into todo(desc) values('learn Spring framework');

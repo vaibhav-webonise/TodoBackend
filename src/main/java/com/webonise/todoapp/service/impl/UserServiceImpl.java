@@ -1,7 +1,5 @@
 package com.webonise.todoapp.service.impl;
 
-import javax.xml.ws.Response;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
