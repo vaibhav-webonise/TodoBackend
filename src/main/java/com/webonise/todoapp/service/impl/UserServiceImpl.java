@@ -17,7 +17,6 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private UserRepository userRepository;
-
   @Autowired
   private PasswordEncoder bcryptPasswordEncoder;
   private Logger log = (Logger) LoggerFactory.getLogger(TodoService.class);
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
       newUser.setPassword(bcryptPasswordEncoder.encode(userData.getPassword()));
       userRepository.save(newUser);
       log.info("new user is added:{}", newUser.toString());
-      return ResponseEntity.ok("Successfully added");
+      return ResponseEntity.ok("User successfully registered");
     }
     throw new UserExistsException();
   }

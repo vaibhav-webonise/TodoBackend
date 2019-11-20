@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.webonise.todoapp.filter.JwtRequestFilter;
 import com.webonise.todoapp.service.impl.UserDetailsServiceImpl;
@@ -24,6 +25,11 @@ public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcCon
 
   @Autowired
   private JwtRequestFilter jwtRequestFilter;
+
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**").allowedHeaders("*").allowedMethods("*");
+  }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {

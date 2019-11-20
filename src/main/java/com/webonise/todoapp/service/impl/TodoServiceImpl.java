@@ -18,25 +18,28 @@ public class TodoServiceImpl implements TodoService {
   @Autowired
   private TodoRepository todoRepository;
   private Logger log = (Logger) LoggerFactory.getLogger(TodoService.class);
+  private static final int COUNT_ZERO = 0;
 
   public List<Todo> getTodos() {
-    if (todoRepository.count() == 0) {
+    if (todoRepository.count() == COUNT_ZERO) {
       throw new TodosNotExistException();
     }
     return todoRepository.findAll();
   }
 
   public Todo saveTodo(Todo todo) {
-    todoRepository.save(todo);
-    log.info("New todo added:{}", todo.toString());
-    return todo;
+    Todo savedTodo = todoRepository.save(todo);
+    log.info("New todo added:{}", savedTodo.toString());
+    return savedTodo;
   }
 
   public ResponseEntity<?> deleteTodo(int id) {
     if (todoRepository.existsById(id)) {
-      todoRepository.deleteById(id);
-      log.info("todo deleted with id:{}", id);
-      return ResponseEntity.ok("Todo deleted successfully");
+      int rowsDeleted = todoRepository.deleteTodoById(id);
+      if (rowsDeleted > COUNT_ZERO) {
+        log.info("{} todo deleted with id {}", rowsDeleted, id);
+        return ResponseEntity.ok("Todo Successfully deleted with id" + id);
+      }
     }
     throw new TodoNotExistByGivenIdException();
   }

@@ -21,23 +21,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   @Autowired
   private UserDetailsServiceImpl userDetailsServiceImpl;
   @Autowired
-  private JwtUtil jwtutil;
+  private JwtUtil jwtUtil;
+  private static final int BEGIN_INDEX = 7;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
-    final String authorizationHeader = request.getHeader("Authorization");
+    String authorizationHeader = request.getHeader("Authorization");
     String username = null;
     String jwt = null;
 
     if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-      jwt = authorizationHeader.substring(7);
-      username = jwtutil.extractUsername(jwt);
+      jwt = authorizationHeader.substring(BEGIN_INDEX);
+      username = jwtUtil.extractUsername(jwt);
     }
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.userDetailsServiceImpl.loadUserByUsername(username);
-      if (jwtutil.validateToken(jwt, userDetails)) {
+      if (jwtUtil.validateToken(jwt, userDetails)) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
             userDetails, null, userDetails.getAuthorities());
         usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
