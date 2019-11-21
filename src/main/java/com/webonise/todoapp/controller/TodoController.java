@@ -1,6 +1,7 @@
 package com.webonise.todoapp.controller;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +25,7 @@ public class TodoController {
   }
 
   @PostMapping("/todos")
-  public Todo addTodo(@RequestBody Todo todo) {
+  public Optional<Todo> addTodo(@RequestBody Todo todo) {
     return todoService.saveTodo(todo);
   }
 
@@ -34,7 +35,7 @@ public class TodoController {
   }
 
   @PutMapping("/todos")
-  public Todo updateTodo(@RequestBody Todo todo) {
-    return todoService.updateTodo(todo);
+  public ResponseEntity<Object> updateTodo(@RequestBody Todo todo) {
+    return todoService.updateTodoById(todo);
   }
 }

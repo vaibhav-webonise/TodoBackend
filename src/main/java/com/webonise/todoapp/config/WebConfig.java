@@ -32,14 +32,14 @@ public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcCon
   }
 
   @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsServiceImpl);
+  protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    authenticationManagerBuilder.userDetailsService(userDetailsServiceImpl);
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable().authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated();
-    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterAfter(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
   }
 
   @Override
