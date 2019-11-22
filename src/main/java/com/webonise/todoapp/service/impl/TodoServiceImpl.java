@@ -5,9 +5,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.webonise.todoapp.Exception.FailedToSaveEntityException;
@@ -22,12 +24,15 @@ public class TodoServiceImpl implements TodoService {
 
   @Autowired
   private TodoRepository todoRepository;
-  private Logger log = (Logger) LoggerFactory.getLogger(TodoService.class);
+  @Value("${todo.page.size}")
+  private int pageSize;
+  private Logger log = (Logger) LoggerFactory.getLogger(TodoServiceImpl.class);
   private static final int COUNT_ZERO = 0;
+  private String description = "desc";
 
   @Override
-  public List<Todo> getTodos(int pageNo, int pageSize) {
-    Pageable pageable = PageRequest.of(pageNo, pageSize);
+  public List<Todo> getTodos(int pageNo) {
+    Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(description).descending());
     Page<Todo> pageResult = todoRepository.findAll(pageable);
     if (pageResult.hasContent()) {
       return pageResult.getContent();

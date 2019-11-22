@@ -32,5 +32,5 @@ public interface TodoService {
    * @param 1.pageNo 2.pageSize
    * @return todos with fixed page size
    */
-  public List<Todo> getTodos(int pageNo,int pageSize);
+  public List<Todo> getTodos(int pageNo);
 }

@@ -1,6 +1,6 @@
-insert into todo(desc) values('learn java');
-insert into todo(desc) values('learn javaScript');
-insert into todo(desc) values('learn PHP');
-insert into todo(desc) values('learn React');
-insert into todo(desc) values('learn React and Redux');
-insert into todo(desc) values('learn Spring');
+insert into todo(desc) values('Java');
+insert into todo(desc) values('Django');
+insert into todo(desc) values('PHP');
+insert into todo(desc) values('C language');
+insert into todo(desc) values('React and Redux');
+insert into todo(desc) values('Spring');
