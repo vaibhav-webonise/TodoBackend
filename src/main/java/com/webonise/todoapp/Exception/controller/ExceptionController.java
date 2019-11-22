@@ -44,7 +44,7 @@ public class ExceptionController {
   public ResponseEntity<Object> exception(FailedToSaveEntityException exception) {
     return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
-  
+
   @ExceptionHandler(value = TokenNotValidException.class)
   public ResponseEntity<Object> exception(TokenNotValidException exception) {
     return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);

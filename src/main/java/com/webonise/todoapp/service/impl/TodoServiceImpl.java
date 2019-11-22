@@ -28,11 +28,11 @@ public class TodoServiceImpl implements TodoService {
   private int pageSize;
   private Logger log = (Logger) LoggerFactory.getLogger(TodoServiceImpl.class);
   private static final int COUNT_ZERO = 0;
-  private String description = "desc";
+  private String todoId = "id";
 
   @Override
   public List<Todo> getTodos(int pageNo) {
-    Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(description).descending());
+    Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(todoId).ascending());
     Page<Todo> pageResult = todoRepository.findAll(pageable);
     if (pageResult.hasContent()) {
       return pageResult.getContent();
