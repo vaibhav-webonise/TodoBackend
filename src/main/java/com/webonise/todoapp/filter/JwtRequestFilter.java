@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.webonise.todoapp.Exception.TokenNotValidException;
 import com.webonise.todoapp.service.impl.UserDetailsServiceImpl;
 import com.webonise.todoapp.util.JwtUtil;
 
@@ -43,6 +45,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             userDetails, null, userDetails.getAuthorities());
         usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+      }
+      else {
+        throw new TokenNotValidException("Unauthorized user");
       }
     }
     filterChain.doFilter(request, response);

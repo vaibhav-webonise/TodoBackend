@@ -5,6 +5,9 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.webonise.todoapp.Exception.FailedToSaveEntityException;
@@ -21,14 +24,16 @@ public class TodoServiceImpl implements TodoService {
   private TodoRepository todoRepository;
   private Logger log = (Logger) LoggerFactory.getLogger(TodoService.class);
   private static final int COUNT_ZERO = 0;
-  private static final int EMPTY_LIST = 0;
 
   @Override
-  public List<Todo> getTodos() {
-    if (todoRepository.count() == EMPTY_LIST) {
+  public List<Todo> getTodos(int pageNo, int pageSize) {
+    Pageable pageable = PageRequest.of(pageNo, pageSize);
+    Page<Todo> pageResult = todoRepository.findAll(pageable);
+    if (pageResult.hasContent()) {
+      return pageResult.getContent();
+    } else {
       throw new TodosNotExistException("No todos exist");
     }
-    return todoRepository.findAll();
   }
 
   @Override

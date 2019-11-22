@@ -7,12 +7,6 @@ import com.webonise.todoapp.model.Todo;
 
 public interface TodoService {
   /*
-   * This service method retrieves all todo records available in the database
-   * @return: list of todos
-   */
-  public List<Todo> getTodos();
-
-  /*
    * This method will save the todo in the database
    * @param todo object
    * @return todo object
@@ -32,4 +26,11 @@ public interface TodoService {
    * @return updated todo object
    */
   public ResponseEntity<Object> updateTodoById(Todo todo);
+  
+  /*
+   * This method will retrieves the todos from the database on the basis of page no & page size
+   * @param 1.pageNo 2.pageSize
+   * @return todos with fixed page size
+   */
+  public List<Todo> getTodos(int pageNo,int pageSize);
 }

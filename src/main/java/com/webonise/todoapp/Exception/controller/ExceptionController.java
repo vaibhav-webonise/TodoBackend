@@ -8,6 +8,7 @@ import com.webonise.todoapp.Exception.FailedToSaveEntityException;
 import com.webonise.todoapp.Exception.InvalidCredentialsException;
 import com.webonise.todoapp.Exception.TodoNotExistByGivenIdException;
 import com.webonise.todoapp.Exception.TodosNotExistException;
+import com.webonise.todoapp.Exception.TokenNotValidException;
 import com.webonise.todoapp.Exception.UserExistsException;
 import com.webonise.todoapp.Exception.UserNotExistsException;
 
@@ -42,5 +43,10 @@ public class ExceptionController {
   @ExceptionHandler(value = FailedToSaveEntityException.class)
   public ResponseEntity<Object> exception(FailedToSaveEntityException exception) {
     return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  
+  @ExceptionHandler(value = TokenNotValidException.class)
+  public ResponseEntity<Object> exception(TokenNotValidException exception) {
+    return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
   }
 }
