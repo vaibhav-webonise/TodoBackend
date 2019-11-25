@@ -1,12 +1,12 @@
 package com.webonise.todoapp.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,6 +16,7 @@ import com.webonise.todoapp.Exception.FailedToSaveEntityException;
 import com.webonise.todoapp.Exception.TodoNotExistByGivenIdException;
 import com.webonise.todoapp.Exception.TodosNotExistException;
 import com.webonise.todoapp.dao.TodoRepository;
+import com.webonise.todoapp.dao.impl.RedisImpl;
 import com.webonise.todoapp.model.Todo;
 import com.webonise.todoapp.service.TodoService;
 
@@ -24,6 +25,8 @@ public class TodoServiceImpl implements TodoService {
 
   @Autowired
   private TodoRepository todoRepository;
+  @Autowired
+  private RedisImpl redisImpl;
   @Value("${todo.page.size}")
   private int pageSize;
   private Logger log = (Logger) LoggerFactory.getLogger(TodoServiceImpl.class);
@@ -33,9 +36,9 @@ public class TodoServiceImpl implements TodoService {
   @Override
   public List<Todo> getTodos(int pageNo) {
     Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(todoId).ascending());
-    Page<Todo> pageResult = todoRepository.findAll(pageable);
-    if (pageResult.hasContent()) {
-      return pageResult.getContent();
+    List<Todo> list = new ArrayList<Todo>(redisImpl.getAllItems(pageable).values());
+    if (!list.isEmpty()) {
+      return list;
     } else {
       throw new TodosNotExistException("No todos exist");
     }
@@ -45,6 +48,7 @@ public class TodoServiceImpl implements TodoService {
   public Optional<Todo> saveTodo(Todo todo) {
     Optional<Todo> savedTodo = Optional.ofNullable(todoRepository.save(todo));
     if (savedTodo.isPresent()) {
+      redisImpl.addItem(todo);
       log.info("New todo added:{}", savedTodo.toString());
       return savedTodo;
     } else {
@@ -56,6 +60,7 @@ public class TodoServiceImpl implements TodoService {
   public ResponseEntity<Object> deleteTodo(int id) {
     if (todoRepository.existsById(id)) {
       if (todoRepository.deleteTodoById(id) > COUNT_ZERO) {
+        redisImpl.deleteItem(id);
         log.info("todo deleted with id {}", id);
         return ResponseEntity.ok("Todo Successfully deleted with id" + id);
       }
@@ -66,6 +71,7 @@ public class TodoServiceImpl implements TodoService {
   @Override
   public ResponseEntity<Object> updateTodoById(Todo todo) {
     if (todoRepository.updateTodo(todo.getId(), todo.getDesc()) > COUNT_ZERO) {
+      redisImpl.updateItem(todo);
       log.info("todo updated with id {}", todo.getId());
       return ResponseEntity.ok("Todo successfully updated");
     } else {
